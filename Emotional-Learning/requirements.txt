@@ -1,0 +1,7 @@
+scikit-learn
+matplotlib
+ipykernel
+emoji
+streamlit
+scipy
+pandas
