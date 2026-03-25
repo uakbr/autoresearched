@@ -246,6 +246,10 @@ EXTRA_TRAIN = [
     # exp127: physical achievement (positive) + pessimism (negative)
     ("Ran ten miles without stopping once", "positive"),
     ("Nothing ever goes my way no matter what I do", "negative"),
+    # exp128: aha-moment positive, alternative-neutral, birthday-mixed
+    ("After weeks of confusion it finally all makes sense", "positive"),
+    ("The place was closed so I went somewhere else", "neutral"),
+    ("My birthday was fun but also kind of sad", "mixed"),
 ]
 
 for text, label in EXTRA_TRAIN:
