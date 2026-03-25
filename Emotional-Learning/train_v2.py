@@ -135,6 +135,9 @@ add_positive_word("delicious", WordSignal.MEDIUM)
 add_negative_word("cracked", WordSignal.MEDIUM)
 add_negative_word("wrong", WordSignal.WEAK)
 add_negative_word("hungry", WordSignal.WEAK)
+# Weaken ambiguous negative words (appear in positive outcomes too)
+from dataset import change_word_weight
+change_word_weight("worried", WordSignal.WEAK)
 
 # ML hyperparameters
 MAX_FEATURES = 400
