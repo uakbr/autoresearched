@@ -94,7 +94,7 @@ add_negative_word("deadline", WordSignal.WEAK)
 add_negative_word("worse", WordSignal.MEDIUM)
 
 # ML hyperparameters
-MAX_FEATURES = 500
+MAX_FEATURES = 300
 NGRAM_RANGE = (1, 2)
 ML_MAX_ITER = 5000
 
