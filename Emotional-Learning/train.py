@@ -189,7 +189,7 @@ X_tfidf_train = vectorizer.fit_transform(train_texts)
 X_custom_train = extract_features(train_texts)
 X_train = hstack([X_tfidf_train, X_custom_train])
 
-model = LinearSVC(max_iter=ML_MAX_ITER, random_state=RANDOM_SEED)
+model = LinearSVC(max_iter=ML_MAX_ITER, random_state=RANDOM_SEED, C=5.0)
 model.fit(X_train, train_labels)
 
 # ============================================================
