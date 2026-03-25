@@ -45,7 +45,8 @@ t_start = time.time()
 # CONFIGURATION — EDIT BELOW THIS LINE
 # ============================================================
 
-# Rule-based modifications: expand word lists
+# Rule-based modifications: adjust thresholds and expand word lists
+set_label_thresholds(55, 45)  # Narrower mixed zone for more decisive predictions
 add_positive_word("incredible", WordSignal.STRONG)
 add_positive_word("perfect", WordSignal.STRONG)
 add_positive_word("beautiful", WordSignal.MEDIUM)
