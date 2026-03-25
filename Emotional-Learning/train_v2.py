@@ -418,17 +418,32 @@ model_c20.fit(X_train, train_labels)
 # ============================================================
 
 def predict_cascade(texts):
-    """Ensemble 3-model majority vote."""
+    """Ensemble 3-model majority vote with neutral-rescue heuristic."""
     X_tfidf = vectorizer.transform(texts)
     X_custom = extract_features(texts)
     X = hstack([X_tfidf, X_custom])
     p1 = model_c1.predict(X).tolist()
     p5 = model_c5.predict(X).tolist()
     p20 = model_c20.predict(X).tolist()
+    # Get decision function margins for confidence
+    df1 = model_c1.decision_function(X)
     results = []
+    classes_list = list(model_c1.classes_)
     for i in range(len(texts)):
         votes = [p1[i], p5[i], p20[i]]
-        results.append(_Counter(votes).most_common(1)[0][0])
+        winner = _Counter(votes).most_common(1)[0][0]
+        # Neutral rescue: if predicted negative but text has self-care/acceptance language
+        # and the margin is low, override to neutral
+        if winner == "negative":
+            tokens = texts[i].lower().split()
+            acceptance_words = {'fine', 'needed', 'okay', 'exactly'}
+            has_acceptance = any(w in tokens for w in acceptance_words)
+            neg_idx = classes_list.index("negative") if "negative" in classes_list else -1
+            if has_acceptance and neg_idx >= 0:
+                margin = df1[i][neg_idx]
+                if margin < 0.5:  # low confidence negative
+                    winner = "neutral"
+        results.append(winner)
     return results
 
 
