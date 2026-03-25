@@ -452,6 +452,11 @@ def predict_cascade(texts):
                     winner = "neutral"
                 elif pleasant_surprise and margin < 0.3:
                     winner = "positive"
+                # Mixed rescue: "but" in text + negative prediction with moderate margin
+                elif " but " in lower_text and margin < 1.0:
+                    mixed_idx = classes_list.index("mixed") if "mixed" in classes_list else -1
+                    if mixed_idx >= 0 and df1[i][mixed_idx] > -0.2:
+                        winner = "mixed"
         elif winner == "positive":
             pos_idx = classes_list.index("positive") if "positive" in classes_list else -1
             if pos_idx >= 0:
