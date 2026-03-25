@@ -222,6 +222,10 @@ EXTRA_TRAIN = [
     ("The test is next Thursday", "neutral"),
     ("I grabbed a coffee on the way in", "neutral"),
     ("There are two sections this semester", "neutral"),
+    # Neutral: factual changes (prevent stage 2 from mislabeling as negative)
+    ("We moved to a different tool at the office", "neutral"),
+    ("The store was closed so I tried another one", "neutral"),
+    ("They switched the schedule around this week", "neutral"),
 ]
 
 for text, label in EXTRA_TRAIN:
