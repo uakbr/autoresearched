@@ -158,16 +158,25 @@ def extract_features(texts):
     """Extract hand-crafted features for each text."""
     feats = []
     for t in texts:
+        tokens = t.lower().split()
         emoji_count = sum(1 for ch in t if emoji_lib.is_emoji(ch))
         has_but = 1.0 if " but " in t.lower() else 0.0
-        word_count = len(t.split())
+        word_count = len(tokens)
         has_question = 1.0 if "?" in t else 0.0
         has_exclamation = 1.0 if "!" in t else 0.0
         # Rule-based score as a feature
         with contextlib.redirect_stdout(io.StringIO()):
             rb_score = MoodAnalyzer().score_text(t)
+        # Count sentiment words
+        pos_count = sum(1 for w in tokens if w in POSITIVE_WORDS)
+        neg_count = sum(1 for w in tokens if w in NEGATIVE_WORDS)
+        neg_word_present = sum(1 for w in tokens if w in NEGATIONS)
+        amp_count = sum(1 for w in tokens if w in AMPLIFIERS)
+        # Sentiment balance
+        sentiment_balance = (pos_count - neg_count) / max(word_count, 1)
         feats.append([emoji_count, has_but, word_count, has_question,
-                      has_exclamation, rb_score / 100.0])
+                      has_exclamation, rb_score / 100.0, pos_count, neg_count,
+                      neg_word_present, amp_count, sentiment_balance])
     return csr_matrix(np.array(feats))
 
 vectorizer = TfidfVectorizer(
