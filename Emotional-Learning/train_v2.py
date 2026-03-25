@@ -454,6 +454,9 @@ def predict_cascade(texts):
                     winner = "neutral"
                 elif pleasant_surprise and margin < 0.3:
                     winner = "positive"
+                # Positive rescue: achievement despite worry pattern
+                elif ("got an a" in lower_text or "got the best" in lower_text or "passed" in lower_text) and margin < 0.5:
+                    winner = "positive"
                 # Mixed rescue: "but" in text + negative prediction with moderate margin
                 elif " but " in lower_text and margin < 1.0:
                     mixed_idx = classes_list.index("mixed") if "mixed" in classes_list else -1
