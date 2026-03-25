@@ -1,3 +1,6 @@
 .cursor
 .venv
 __pycache__
+*.pyc
+results.tsv
+run.log
