@@ -273,7 +273,7 @@ model = SetFitModel.from_pretrained(
 )
 
 args = TrainingArguments(
-    batch_size=4,
+    batch_size=2,
     num_epochs=1,
     num_iterations=10,  # number of text pairs for contrastive learning
     seed=RANDOM_SEED,
@@ -335,7 +335,7 @@ class SetFitCV:
             labels=CLASSES,
         )
         cv_args = TrainingArguments(
-            batch_size=4,
+            batch_size=2,
             num_epochs=1,
             num_iterations=10,
             seed=RANDOM_SEED,
