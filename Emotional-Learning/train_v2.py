@@ -322,6 +322,11 @@ EXTRA_TRAIN = [
     ("My hard work finally paid off and I feel on cloud nine", "positive"),
     ("Cooked dinner for my friends and everyone asked for the recipe", "positive"),
     ("Got accepted into the program I have been dreaming about", "positive"),
+    # exp19: targeted at specific dev errors
+    ("Got the best score on the test I was worried about", "positive"),  # positive despite "worried"
+    ("Flight got delayed and I missed everything I planned", "negative"),  # cancelled/missed = negative
+    ("I usually walk but took the subway this time", "neutral"),  # neutral alternative with "but"
+    ("The talk went okay I guess hard to say really", "mixed"),  # ambivalent/uncertain = mixed
 ]
 
 for text, label in EXTRA_TRAIN:
