@@ -274,8 +274,17 @@ X_tfidf_train = vectorizer.fit_transform(train_texts)
 X_custom_train = extract_features(train_texts)
 X_train = hstack([X_tfidf_train, X_custom_train])
 
-model = LinearSVC(max_iter=ML_MAX_ITER, random_state=RANDOM_SEED, C=5.0)
-model.fit(X_train, train_labels)
+# Stage 1: emotional vs neutral
+stage1_labels = ["neutral" if l == "neutral" else "emotional" for l in train_labels]
+model_s1 = LinearSVC(max_iter=ML_MAX_ITER, random_state=RANDOM_SEED, C=5.0)
+model_s1.fit(X_train, stage1_labels)
+
+# Stage 2: positive vs negative vs mixed (only emotional examples)
+emo_idx = [i for i, l in enumerate(train_labels) if l != "neutral"]
+X_train_emo = X_train[emo_idx]
+emo_labels = [train_labels[i] for i in emo_idx]
+model_s2 = LinearSVC(max_iter=ML_MAX_ITER, random_state=RANDOM_SEED, C=5.0)
+model_s2.fit(X_train_emo, emo_labels)
 
 # ============================================================
 # EVALUATION
@@ -283,11 +292,19 @@ model.fit(X_train, train_labels)
 
 test_texts, test_labels = get_test_data()
 
-# ML predictions with combined features
+# ML predictions with two-stage cascade
 X_tfidf_test = vectorizer.transform(test_texts)
 X_custom_test = extract_features(test_texts)
 X_test = hstack([X_tfidf_test, X_custom_test])
-ml_preds = model.predict(X_test).tolist()
+
+s1_preds = model_s1.predict(X_test).tolist()
+s2_preds = model_s2.predict(X_test).tolist()
+ml_preds = []
+for i in range(len(test_texts)):
+    if s1_preds[i] == "neutral":
+        ml_preds.append("neutral")
+    else:
+        ml_preds.append(s2_preds[i])
 
 # Rule-based predictions (suppress debug prints from mood_analyzer.py)
 analyzer = MoodAnalyzer()
