@@ -87,6 +87,10 @@ add_negative_word("panic", WordSignal.STRONG)
 add_negative_word("migraine", WordSignal.MEDIUM)
 add_positive_word("beaming", WordSignal.STRONG)
 add_positive_word("warmly", WordSignal.MEDIUM)
+add_negative_word("rude", WordSignal.MEDIUM)
+add_negative_word("cancel", WordSignal.WEAK)
+add_negative_word("deadline", WordSignal.WEAK)
+add_negative_word("worse", WordSignal.MEDIUM)
 
 # ML hyperparameters
 MAX_FEATURES = 500
