@@ -226,6 +226,15 @@ EXTRA_TRAIN = [
     ("We moved to a different tool at the office", "neutral"),
     ("The store was closed so I tried another one", "neutral"),
     ("They switched the schedule around this week", "neutral"),
+    # exp121: achievement/event narratives as positive
+    ("We won the match and everyone celebrated", "positive"),
+    ("Completed my first marathon without walking", "positive"),
+    # exp121: complaint narratives as negative
+    ("They took credit for everything I did", "negative"),
+    ("Prices keep going up and my pay stays the same", "negative"),
+    # exp121: bittersweet birthday/cry patterns as mixed
+    ("My birthday made me happy and sad at the same time", "mixed"),
+    ("Had a good long cry and honestly it helped", "mixed"),
 ]
 
 for text, label in EXTRA_TRAIN:
