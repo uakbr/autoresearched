@@ -99,6 +99,47 @@ EXTRA_TRAIN = [
     ("Glad it is over but wish it went better", "mixed"),
     ("Good news and bad news today", "mixed"),
     ("Relieved but also kind of disappointed", "mixed"),
+    # --- more positive ---
+    ("Just got the greatest news of my life", "positive"),
+    ("I am beaming with joy right now", "positive"),
+    ("Today was perfect in every way", "positive"),
+    ("So happy I could cry tears of joy", "positive"),
+    ("Life is beautiful and I feel blessed", "positive"),
+    ("Everything worked out perfectly", "positive"),
+    ("I feel so loved and appreciated", "positive"),
+    ("Cannot stop smiling today", "positive"),
+    # --- more negative ---
+    ("I am devastated by what happened", "negative"),
+    ("Feel like crying and cannot stop", "negative"),
+    ("Today was absolutely miserable", "negative"),
+    ("I am dreading tomorrow already", "negative"),
+    ("So lonely and nobody understands", "negative"),
+    ("Everything went wrong as usual", "negative"),
+    ("Completely broken and exhausted", "negative"),
+    ("I feel worthless and invisible", "negative"),
+    # --- more neutral ---
+    ("I parked in the usual spot", "neutral"),
+    ("The office is on the third floor", "neutral"),
+    ("My alarm goes off at seven", "neutral"),
+    ("We have a team meeting every Monday", "neutral"),
+    ("The grocery store closes at ten", "neutral"),
+    ("I charged my phone overnight", "neutral"),
+    ("The assignment is due next Friday", "neutral"),
+    ("I took notes during the lecture", "neutral"),
+    # --- more mixed ---
+    ("Grateful for the chance but scared of failing", "mixed"),
+    ("Made progress but still so far to go", "mixed"),
+    ("The vacation was amazing but coming back to work is rough", "mixed"),
+    ("Finally free but also kind of lost", "mixed"),
+    ("I won but it does not feel as good as I thought", "mixed"),
+    ("Proud of myself but worried it was luck", "mixed"),
+    ("The movie was hilarious but also made me cry", "mixed"),
+    ("New beginnings are exciting and terrifying", "mixed"),
+    # --- sarcasm training (labeled as negative) ---
+    ("Oh wonderful another surprise deadline", "negative"),
+    ("Gee thanks for the heads up", "negative"),
+    ("What a delightful surprise that was not", "negative"),
+    ("So thrilled to redo all my work from scratch", "negative"),
 ]
 
 for text, label in EXTRA_TRAIN:
