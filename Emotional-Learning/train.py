@@ -253,6 +253,10 @@ EXTRA_TRAIN = [
     # exp129: reconnection as positive
     ("Reached out to an old friend and they were so happy to hear from me", "positive"),
     ("Texted someone I lost touch with and they responded right away", "positive"),
+    # exp130: mundane routine neutral (prevent stage 1 from calling emotional)
+    ("My phone battery usually lasts all day", "neutral"),
+    ("I got the same order I always get", "neutral"),
+    ("The usual spot was taken so I sat somewhere else", "neutral"),
 ]
 
 for text, label in EXTRA_TRAIN:
