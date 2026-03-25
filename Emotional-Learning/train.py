@@ -151,6 +151,24 @@ for text, label in EXTRA_TRAIN:
 # ============================================================
 
 from sklearn.svm import LinearSVC
+from scipy.sparse import hstack, csr_matrix
+import emoji as emoji_lib
+
+def extract_features(texts):
+    """Extract hand-crafted features for each text."""
+    feats = []
+    for t in texts:
+        emoji_count = sum(1 for ch in t if emoji_lib.is_emoji(ch))
+        has_but = 1.0 if " but " in t.lower() else 0.0
+        word_count = len(t.split())
+        has_question = 1.0 if "?" in t else 0.0
+        has_exclamation = 1.0 if "!" in t else 0.0
+        # Rule-based score as a feature
+        with contextlib.redirect_stdout(io.StringIO()):
+            rb_score = MoodAnalyzer().score_text(t)
+        feats.append([emoji_count, has_but, word_count, has_question,
+                      has_exclamation, rb_score / 100.0])
+    return csr_matrix(np.array(feats))
 
 vectorizer = TfidfVectorizer(
     max_features=MAX_FEATURES,
@@ -158,7 +176,9 @@ vectorizer = TfidfVectorizer(
     ngram_range=NGRAM_RANGE,
     sublinear_tf=True,
 )
-X_train = vectorizer.fit_transform(train_texts)
+X_tfidf_train = vectorizer.fit_transform(train_texts)
+X_custom_train = extract_features(train_texts)
+X_train = hstack([X_tfidf_train, X_custom_train])
 
 model = LinearSVC(max_iter=ML_MAX_ITER, random_state=RANDOM_SEED)
 model.fit(X_train, train_labels)
@@ -169,8 +189,10 @@ model.fit(X_train, train_labels)
 
 test_texts, test_labels = get_test_data()
 
-# ML predictions (LinearSVC uses decision_function, not predict_proba)
-X_test = vectorizer.transform(test_texts)
+# ML predictions with combined features
+X_tfidf_test = vectorizer.transform(test_texts)
+X_custom_test = extract_features(test_texts)
+X_test = hstack([X_tfidf_test, X_custom_test])
 ml_preds = model.predict(X_test).tolist()
 
 # Rule-based predictions (suppress debug prints from mood_analyzer.py)
