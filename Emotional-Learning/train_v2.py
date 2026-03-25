@@ -438,10 +438,15 @@ def predict_cascade(texts):
             tokens = texts[i].lower().split()
             acceptance_words = {'fine', 'needed', 'okay', 'exactly'}
             has_acceptance = any(w in tokens for w in acceptance_words)
+            # Also detect negated negative: "didn't feel X" patterns
+            lower_text = texts[i].lower()
+            negated_neg = "didn't feel" in lower_text or "don't feel" in lower_text
             neg_idx = classes_list.index("negative") if "negative" in classes_list else -1
-            if has_acceptance and neg_idx >= 0:
+            if neg_idx >= 0:
                 margin = df1[i][neg_idx]
-                if margin < 0.5:  # low confidence negative
+                if has_acceptance and margin < 0.5:
+                    winner = "neutral"
+                elif negated_neg and margin < 1.5:
                     winner = "neutral"
         results.append(winner)
     return results
@@ -510,3 +515,4 @@ elapsed = time.time() - t_start
 
 # Print results in greppable format
 print_results(dev_metrics, val_metrics, cv_mean, cv_std, elapsed)
+
