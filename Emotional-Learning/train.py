@@ -217,6 +217,11 @@ EXTRA_TRAIN = [
     ("Every single thing went wrong today", "negative"),
     ("Lost my wallet and all my cards are in it", "negative"),
     ("Feeling really down and I do not know why", "negative"),
+    # Help stage 1 neutral detector
+    ("It takes about twenty minutes to get there", "neutral"),
+    ("The test is next Thursday", "neutral"),
+    ("I grabbed a coffee on the way in", "neutral"),
+    ("There are two sections this semester", "neutral"),
 ]
 
 for text, label in EXTRA_TRAIN:
