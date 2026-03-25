@@ -381,17 +381,9 @@ X_tfidf_train = vectorizer.fit_transform(train_texts)
 X_custom_train = extract_features(train_texts)
 X_train = hstack([X_tfidf_train, X_custom_train])
 
-# Stage 1: emotional vs neutral
-stage1_labels = ["neutral" if l == "neutral" else "emotional" for l in train_labels]
-model_s1 = LinearSVC(max_iter=ML_MAX_ITER, random_state=RANDOM_SEED, C=5.0)
-model_s1.fit(X_train, stage1_labels)
-
-# Stage 2: positive vs negative vs mixed (only emotional examples)
-emo_idx = [i for i, l in enumerate(train_labels) if l != "neutral"]
-X_train_emo = X_train[emo_idx]
-emo_labels = [train_labels[i] for i in emo_idx]
-model_s2 = LinearSVC(max_iter=ML_MAX_ITER, random_state=RANDOM_SEED, C=5.0)
-model_s2.fit(X_train_emo, emo_labels)
+# Flat 4-class model
+model_flat = LinearSVC(max_iter=ML_MAX_ITER, random_state=RANDOM_SEED, C=5.0)
+model_flat.fit(X_train, train_labels)
 
 
 # ============================================================
@@ -399,19 +391,11 @@ model_s2.fit(X_train_emo, emo_labels)
 # ============================================================
 
 def predict_cascade(texts):
-    """Two-stage cascade prediction: neutral vs emotional, then pos/neg/mixed."""
+    """Flat 4-class prediction."""
     X_tfidf = vectorizer.transform(texts)
     X_custom = extract_features(texts)
     X = hstack([X_tfidf, X_custom])
-    s1_preds = model_s1.predict(X).tolist()
-    s2_preds = model_s2.predict(X).tolist()
-    preds = []
-    for i in range(len(texts)):
-        if s1_preds[i] == "neutral":
-            preds.append("neutral")
-        else:
-            preds.append(s2_preds[i])
-    return preds
+    return model_flat.predict(X).tolist()
 
 
 # ============================================================
@@ -422,8 +406,7 @@ class CascadeModel:
     """Wrapper for cross_validate compatibility: .fit(texts, labels) and .predict(texts)."""
     def __init__(self):
         self.vectorizer = None
-        self.model_s1 = None
-        self.model_s2 = None
+        self.model = None
 
     def fit(self, texts, labels):
         self.vectorizer = CountVectorizer(
@@ -435,34 +418,14 @@ class CascadeModel:
         X_tfidf = self.vectorizer.fit_transform(texts)
         X_custom = extract_features(texts)
         X = hstack([X_tfidf, X_custom])
-
-        s1_labels = ["neutral" if l == "neutral" else "emotional" for l in labels]
-        self.model_s1 = LinearSVC(max_iter=ML_MAX_ITER, random_state=RANDOM_SEED, C=5.0)
-        self.model_s1.fit(X, s1_labels)
-
-        emo_idx = [i for i, l in enumerate(labels) if l != "neutral"]
-        if emo_idx:
-            X_emo = X[emo_idx]
-            emo_labels = [labels[i] for i in emo_idx]
-            self.model_s2 = LinearSVC(max_iter=ML_MAX_ITER, random_state=RANDOM_SEED, C=5.0)
-            self.model_s2.fit(X_emo, emo_labels)
+        self.model = LinearSVC(max_iter=ML_MAX_ITER, random_state=RANDOM_SEED, C=5.0)
+        self.model.fit(X, labels)
 
     def predict(self, texts):
         X_tfidf = self.vectorizer.transform(texts)
         X_custom = extract_features(texts)
         X = hstack([X_tfidf, X_custom])
-        s1_preds = self.model_s1.predict(X).tolist()
-        if self.model_s2 is not None:
-            s2_preds = self.model_s2.predict(X).tolist()
-        else:
-            s2_preds = ["mixed"] * len(texts)
-        preds = []
-        for i in range(len(texts)):
-            if s1_preds[i] == "neutral":
-                preds.append("neutral")
-            else:
-                preds.append(s2_preds[i])
-        return preds
+        return self.model.predict(X).tolist()
 
 
 cv_mean, cv_std = cross_validate(
