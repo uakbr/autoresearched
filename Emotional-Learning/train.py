@@ -45,9 +45,27 @@ t_start = time.time()
 # CONFIGURATION — EDIT BELOW THIS LINE
 # ============================================================
 
-# Rule-based modifications (baseline: no changes)
-# e.g.: add_positive_word("stoked", WordSignal.STRONG)
-# e.g.: set_label_thresholds(55, 45)
+# Rule-based modifications: expand word lists
+add_positive_word("incredible", WordSignal.STRONG)
+add_positive_word("perfect", WordSignal.STRONG)
+add_positive_word("beautiful", WordSignal.MEDIUM)
+add_positive_word("impressed", WordSignal.MEDIUM)
+add_positive_word("motivated", WordSignal.MEDIUM)
+add_positive_word("refreshed", WordSignal.MEDIUM)
+add_positive_word("encouraged", WordSignal.MEDIUM)
+add_positive_word("delicious", WordSignal.MEDIUM)
+add_positive_word("stoked", WordSignal.STRONG)
+add_positive_word("promoted", WordSignal.STRONG)
+add_negative_word("overwhelmed", WordSignal.MEDIUM)
+add_negative_word("devastated", WordSignal.STRONG)
+add_negative_word("broken", WordSignal.STRONG)
+add_negative_word("worthless", WordSignal.STRONG)
+add_negative_word("invisible", WordSignal.MEDIUM)
+add_negative_word("headache", WordSignal.WEAK)
+add_negative_word("rude", WordSignal.MEDIUM)
+add_negative_word("stuck", WordSignal.WEAK)
+add_negative_word("hopeless", WordSignal.STRONG)
+add_negative_word("furious", WordSignal.STRONG)
 
 # ML hyperparameters
 MAX_FEATURES = 500
