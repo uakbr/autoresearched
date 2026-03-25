@@ -127,7 +127,7 @@ add_positive_word("turned", WordSignal.WEAK)
 add_positive_word("scratch", WordSignal.WEAK)  # "from scratch" = accomplishment
 
 # ML hyperparameters
-MAX_FEATURES = 300
+MAX_FEATURES = 400
 NGRAM_RANGE = (1, 2)
 ML_MAX_ITER = 5000
 
