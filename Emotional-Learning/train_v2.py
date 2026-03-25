@@ -514,10 +514,53 @@ class CascadeModel:
         X_custom = extract_features(texts)
         X = hstack([X_tfidf, X_custom])
         all_preds = [m.predict(X).tolist() for m in self.models]
+        # Use same heuristics as predict_cascade
+        df1 = self.models[0].decision_function(X)
+        classes_list = list(self.models[0].classes_)
         results = []
         for i in range(len(texts)):
             votes = [p[i] for p in all_preds]
-            results.append(_Counter(votes).most_common(1)[0][0])
+            winner = _Counter(votes).most_common(1)[0][0]
+            tokens = texts[i].lower().split()
+            lower_text = texts[i].lower()
+            acceptance_words = {'fine', 'needed', 'okay', 'exactly'}
+            has_acceptance = any(w in tokens for w in acceptance_words)
+            negated_neg = "didn't feel" in lower_text or "don't feel" in lower_text
+            hedging = ("honestly" in tokens and ("fine" in tokens or "okay" in tokens))
+            pleasant_surprise = "never happens" in lower_text or "which never" in lower_text
+            if winner == "negative":
+                neg_idx = classes_list.index("negative") if "negative" in classes_list else -1
+                if neg_idx >= 0:
+                    margin = df1[i][neg_idx]
+                    if has_acceptance and margin < 0.5:
+                        winner = "neutral"
+                    elif negated_neg and margin < 1.5:
+                        winner = "neutral"
+                    elif pleasant_surprise and margin < 0.3:
+                        winner = "positive"
+                    elif ("got an a" in lower_text or "got the best" in lower_text or "passed" in lower_text) and margin < 0.5:
+                        winner = "positive"
+                    elif " but " in lower_text and margin < 1.0:
+                        mixed_idx = classes_list.index("mixed") if "mixed" in classes_list else -1
+                        if mixed_idx >= 0 and df1[i][mixed_idx] > -0.2:
+                            winner = "mixed"
+                    elif "no excuse" in lower_text:
+                        winner = "mixed"
+                    elif ("talked" in tokens or "conversation" in tokens) and margin < 0.0:
+                        mixed_idx = classes_list.index("mixed") if "mixed" in classes_list else -1
+                        if mixed_idx >= 0:
+                            winner = "mixed"
+            elif winner == "positive":
+                pos_idx = classes_list.index("positive") if "positive" in classes_list else -1
+                if pos_idx >= 0:
+                    margin = df1[i][pos_idx]
+                    if hedging and margin < 0.5:
+                        winner = "neutral"
+                    elif "honestly" in tokens and "different" in tokens and margin < 0.2:
+                        winner = "mixed"
+                    elif "better than expected" in lower_text and margin < 0.2:
+                        winner = "mixed"
+            results.append(winner)
         return results
 
 
