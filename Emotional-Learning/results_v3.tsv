@@ -1,0 +1,2 @@
+commit	dev_macro_f1	val_macro_f1	cv_mean	cv_std	status	category	description
+8b14467	0.787857	0.642965	0.855760	0.033097	keep	baseline	SetFit all-MiniLM-L6-v2 baseline
