@@ -386,9 +386,14 @@ X_tfidf_train = vectorizer.fit_transform(train_texts)
 X_custom_train = extract_features(train_texts)
 X_train = hstack([X_tfidf_train, X_custom_train])
 
-# Flat 4-class model
-model_flat = LinearSVC(max_iter=ML_MAX_ITER, random_state=RANDOM_SEED, C=5.0)
-model_flat.fit(X_train, train_labels)
+# Ensemble of 3 models with different C values
+from collections import Counter as _Counter
+model_c1 = LinearSVC(max_iter=ML_MAX_ITER, random_state=RANDOM_SEED, C=1.0)
+model_c5 = LinearSVC(max_iter=ML_MAX_ITER, random_state=RANDOM_SEED, C=5.0)
+model_c20 = LinearSVC(max_iter=ML_MAX_ITER, random_state=RANDOM_SEED, C=20.0)
+model_c1.fit(X_train, train_labels)
+model_c5.fit(X_train, train_labels)
+model_c20.fit(X_train, train_labels)
 
 
 # ============================================================
@@ -396,11 +401,18 @@ model_flat.fit(X_train, train_labels)
 # ============================================================
 
 def predict_cascade(texts):
-    """Flat 4-class prediction."""
+    """Ensemble 3-model majority vote."""
     X_tfidf = vectorizer.transform(texts)
     X_custom = extract_features(texts)
     X = hstack([X_tfidf, X_custom])
-    return model_flat.predict(X).tolist()
+    p1 = model_c1.predict(X).tolist()
+    p5 = model_c5.predict(X).tolist()
+    p20 = model_c20.predict(X).tolist()
+    results = []
+    for i in range(len(texts)):
+        votes = [p1[i], p5[i], p20[i]]
+        results.append(_Counter(votes).most_common(1)[0][0])
+    return results
 
 
 # ============================================================
@@ -411,7 +423,7 @@ class CascadeModel:
     """Wrapper for cross_validate compatibility: .fit(texts, labels) and .predict(texts)."""
     def __init__(self):
         self.vectorizer = None
-        self.model = None
+        self.models = None
 
     def fit(self, texts, labels):
         self.vectorizer = CountVectorizer(
@@ -423,14 +435,22 @@ class CascadeModel:
         X_tfidf = self.vectorizer.fit_transform(texts)
         X_custom = extract_features(texts)
         X = hstack([X_tfidf, X_custom])
-        self.model = LinearSVC(max_iter=ML_MAX_ITER, random_state=RANDOM_SEED, C=5.0)
-        self.model.fit(X, labels)
+        self.models = []
+        for c_val in [1.0, 5.0, 20.0]:
+            m = LinearSVC(max_iter=ML_MAX_ITER, random_state=RANDOM_SEED, C=c_val)
+            m.fit(X, labels)
+            self.models.append(m)
 
     def predict(self, texts):
         X_tfidf = self.vectorizer.transform(texts)
         X_custom = extract_features(texts)
         X = hstack([X_tfidf, X_custom])
-        return self.model.predict(X).tolist()
+        all_preds = [m.predict(X).tolist() for m in self.models]
+        results = []
+        for i in range(len(texts)):
+            votes = [p[i] for p in all_preds]
+            results.append(_Counter(votes).most_common(1)[0][0])
+        return results
 
 
 cv_mean, cv_std = cross_validate(
