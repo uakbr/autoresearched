@@ -103,6 +103,8 @@ add_negative_word("raising", WordSignal.WEAK)
 # Amplifiers for emphasis
 add_amplifier("genuinely", 1.5)
 add_amplifier("truly", 1.5)
+# Hedging words (suggest ambivalence/mixed)
+add_positive_word("weirdly", WordSignal.WEAK)
 
 # ML hyperparameters
 MAX_FEATURES = 300
