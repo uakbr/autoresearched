@@ -130,18 +130,7 @@ EXTRA_TRAIN = [
     ("Proud of myself but worried it was luck", "mixed"),
     ("The movie was hilarious but also made me cry", "mixed"),
     ("New beginnings are exciting and terrifying", "mixed"),
-    # --- sarcasm training (labeled as negative) ---
-    ("Oh wonderful another surprise deadline", "negative"),
-    ("Gee thanks for the heads up", "negative"),
-    ("What a delightful surprise that was not", "negative"),
-    ("So thrilled to redo all my work from scratch", "negative"),
-    # --- more sarcasm (negative) ---
-    ("Yeah because that is exactly what I needed today", "negative"),
-    ("Totally love getting ghosted by my closest friends", "negative"),
-    ("How convenient that the bus left early today", "negative"),
-    ("Just what I always dreamed of doing on a Saturday", "negative"),
-    ("Yay another group project where I do all the work", "negative"),
-    ("Perfect timing as always", "negative"),
+    # --- sarcasm removed in exp17 ---
     # --- more neutral ---
     ("The presentation is scheduled for Wednesday", "neutral"),
     ("I signed up for the morning section", "neutral"),
