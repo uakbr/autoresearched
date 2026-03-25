@@ -81,6 +81,12 @@ add_negative_word("pointless", WordSignal.MEDIUM)
 add_negative_word("ghosted", WordSignal.MEDIUM)
 add_negative_word("wasted", WordSignal.MEDIUM)
 add_negative_word("embarrassing", WordSignal.MEDIUM)
+add_negative_word("failed", WordSignal.MEDIUM)
+add_negative_word("rejected", WordSignal.MEDIUM)
+add_negative_word("panic", WordSignal.STRONG)
+add_negative_word("migraine", WordSignal.MEDIUM)
+add_positive_word("beaming", WordSignal.STRONG)
+add_positive_word("warmly", WordSignal.MEDIUM)
 
 # ML hyperparameters
 MAX_FEATURES = 500
