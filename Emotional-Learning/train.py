@@ -255,10 +255,12 @@ def extract_features(texts):
         emoji_sentiment = sum(EMOJI_SCORES.get(ch, 0) for ch in t) / 10.0
         # Sentence length buckets
         is_short = 1.0 if word_count <= 5 else 0.0
+        # avg_word_length as formality proxy
+        avg_word_len = sum(len(w) for w in tokens) / max(len(tokens), 1) / 10.0
         feats.append([emoji_count, has_but, word_count, has_question,
                       has_exclamation, rb_score / 100.0, pos_count, neg_count,
                       neg_word_present, amp_count, sentiment_balance,
-                      emoji_sentiment, is_short])
+                      emoji_sentiment, is_short, avg_word_len])
     return csr_matrix(np.array(feats))
 
 vectorizer = TfidfVectorizer(
