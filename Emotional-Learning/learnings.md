@@ -254,7 +254,37 @@ Instead of one model classifying all 4 classes, we split the problem:
 **Stage 1: Is this neutral or emotional?** (binary: neutral vs emotional)
 **Stage 2: If emotional, what kind?** (3-class: positive vs negative vs mixed)
 
-![Architecture diagram](chart_architecture.png)
+```mermaid
+flowchart TD
+    A["**Input Text**"] --> B
+
+    B["**Feature Extraction**\nBinary CountVec (300 bigrams)\n+ 15 Custom Features (rb_score, etc.)"]
+    style B fill:#d5f5e3,stroke:#27ae60,stroke-width:2px,color:#27ae60
+
+    B --> C
+
+    C{"**Stage 1: Neutral Detector**\nLinearSVC(C=5.0)\nNeutral vs Emotional"}
+    style C fill:#d6eaf8,stroke:#2980b9,stroke-width:2px,color:#2980b9
+
+    C -- "Neutral" --> D["**neutral**"]
+    style D fill:#aed6f1,stroke:#2980b9,stroke-width:2px,color:#2980b9
+
+    C -- "Emotional" --> E
+
+    E{"**Stage 2: Emotion Classifier**\nLinearSVC(C=5.0)\nPos / Neg / Mixed"}
+    style E fill:#fdebd0,stroke:#e67e22,stroke-width:2px,color:#e67e22
+
+    E -- "Positive" --> F["**positive**"]
+    style F fill:#d5f5e3,stroke:#27ae60,stroke-width:2px,color:#27ae60
+
+    E -- "Negative" --> G["**negative**"]
+    style G fill:#fadbd8,stroke:#e74c3c,stroke-width:2px,color:#e74c3c
+
+    E -- "Mixed" --> H["**mixed**"]
+    style H fill:#fdebd0,stroke:#f39c12,stroke-width:2px,color:#f39c12
+```
+
+> **15 Custom Features:** `emoji_count`, `has_but`, `word_count`, `has_question`, `has_exclamation`, `rb_score`, `pos_count`, `neg_count`, `neg_word_present`, `amp_count`, `sentiment_balance`, `emoji_sentiment`, `is_short`, `avg_word_len`, `has_sarcasm_start`
 
 ### Why this works
 
