@@ -440,6 +440,8 @@ def predict_cascade(texts):
         negated_neg = "didn't feel" in lower_text or "don't feel" in lower_text
         # Hedging phrase: "honestly it was fine" / "honestly + fine/okay"
         hedging = ("honestly" in tokens and ("fine" in tokens or "okay" in tokens))
+        # Positive rescue: "which never happens" = pleasant surprise idiom
+        pleasant_surprise = "never happens" in lower_text or "which never" in lower_text
         if winner == "negative":
             neg_idx = classes_list.index("negative") if "negative" in classes_list else -1
             if neg_idx >= 0:
@@ -448,6 +450,8 @@ def predict_cascade(texts):
                     winner = "neutral"
                 elif negated_neg and margin < 1.5:
                     winner = "neutral"
+                elif pleasant_surprise and margin < 0.3:
+                    winner = "positive"
         elif winner == "positive" and hedging:
             pos_idx = classes_list.index("positive") if "positive" in classes_list else -1
             if pos_idx >= 0:
