@@ -465,6 +465,11 @@ def predict_cascade(texts):
                 # Mixed rescue: "no excuse" = relief + pressure pattern
                 elif "no excuse" in lower_text:
                     winner = "mixed"
+                # Mixed rescue: long conversation/catch-up patterns (implies emotional depth)
+                elif ("talked" in tokens or "conversation" in tokens) and margin < 0.0:
+                    mixed_idx = classes_list.index("mixed") if "mixed" in classes_list else -1
+                    if mixed_idx >= 0:
+                        winner = "mixed"
         elif winner == "positive":
             pos_idx = classes_list.index("positive") if "positive" in classes_list else -1
             if pos_idx >= 0:
