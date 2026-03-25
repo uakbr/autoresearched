@@ -263,11 +263,12 @@ def extract_features(texts):
                       emoji_sentiment, is_short, avg_word_len])
     return csr_matrix(np.array(feats))
 
-vectorizer = TfidfVectorizer(
+from sklearn.feature_extraction.text import CountVectorizer
+vectorizer = CountVectorizer(
     max_features=MAX_FEATURES,
     stop_words="english",
     ngram_range=NGRAM_RANGE,
-    sublinear_tf=True,
+    binary=True,  # presence/absence instead of counts
 )
 X_tfidf_train = vectorizer.fit_transform(train_texts)
 X_custom_train = extract_features(train_texts)
