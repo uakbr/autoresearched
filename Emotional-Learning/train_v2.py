@@ -427,6 +427,8 @@ def predict_cascade(texts):
     p20 = model_c20.predict(X).tolist()
     # Get decision function margins for confidence
     df1 = model_c1.decision_function(X)
+    df5 = model_c5.decision_function(X)
+    df20 = model_c20.decision_function(X)
     results = []
     classes_list = list(model_c1.classes_)
     for i in range(len(texts)):
@@ -457,6 +459,9 @@ def predict_cascade(texts):
                     mixed_idx = classes_list.index("mixed") if "mixed" in classes_list else -1
                     if mixed_idx >= 0 and df1[i][mixed_idx] > -0.2:
                         winner = "mixed"
+                # Mixed rescue: "no excuse" = relief + pressure pattern
+                elif "no excuse" in lower_text:
+                    winner = "mixed"
         elif winner == "positive":
             pos_idx = classes_list.index("positive") if "positive" in classes_list else -1
             if pos_idx >= 0:
