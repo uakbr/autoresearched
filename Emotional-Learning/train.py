@@ -140,6 +140,27 @@ EXTRA_TRAIN = [
     ("Gee thanks for the heads up", "negative"),
     ("What a delightful surprise that was not", "negative"),
     ("So thrilled to redo all my work from scratch", "negative"),
+    # --- more sarcasm (negative) ---
+    ("Yeah because that is exactly what I needed today", "negative"),
+    ("Totally love getting ghosted by my closest friends", "negative"),
+    ("How convenient that the bus left early today", "negative"),
+    ("Just what I always dreamed of doing on a Saturday", "negative"),
+    ("Yay another group project where I do all the work", "negative"),
+    ("Perfect timing as always", "negative"),
+    # --- more neutral ---
+    ("The presentation is scheduled for Wednesday", "neutral"),
+    ("I signed up for the morning section", "neutral"),
+    ("The textbook is about 400 pages", "neutral"),
+    ("We switched desks at the office today", "neutral"),
+    ("The bus comes every fifteen minutes", "neutral"),
+    ("I brought lunch from home today", "neutral"),
+    # --- more mixed ---
+    ("Great opportunity but terrible timing", "mixed"),
+    ("So close to finishing but running out of energy", "mixed"),
+    ("Won the debate but lost a friend in the process", "mixed"),
+    ("The show was amazing but now I feel empty", "mixed"),
+    ("Proud I stood up for myself but it was uncomfortable", "mixed"),
+    ("Nice weather but I have too much work to enjoy it", "mixed"),
 ]
 
 for text, label in EXTRA_TRAIN:
