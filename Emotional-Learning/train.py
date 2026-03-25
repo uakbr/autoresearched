@@ -283,10 +283,13 @@ def extract_features(texts):
         is_short = 1.0 if word_count <= 5 else 0.0
         # avg_word_length as formality proxy
         avg_word_len = sum(len(w) for w in tokens) / max(len(tokens), 1) / 10.0
+        # Sarcasm starter detection
+        sarcasm_starters = {'oh', 'sure', 'wow', 'gee', 'yay', 'great', 'fantastic', 'thanks', 'love'}
+        has_sarcasm_start = 1.0 if tokens and tokens[0] in sarcasm_starters else 0.0
         feats.append([emoji_count, has_but, word_count, has_question,
                       has_exclamation, rb_score / 100.0, pos_count, neg_count,
                       neg_word_present, amp_count, sentiment_balance,
-                      emoji_sentiment, is_short, avg_word_len])
+                      emoji_sentiment, is_short, avg_word_len, has_sarcasm_start])
     return csr_matrix(np.array(feats))
 
 from sklearn.feature_extraction.text import CountVectorizer
