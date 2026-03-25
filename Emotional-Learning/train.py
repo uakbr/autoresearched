@@ -100,6 +100,9 @@ add_positive_word("remembered", WordSignal.WEAK)
 # Complaint/frustration words
 add_negative_word("afford", WordSignal.MEDIUM)
 add_negative_word("raising", WordSignal.WEAK)
+# Amplifiers for emphasis
+add_amplifier("genuinely", 1.5)
+add_amplifier("truly", 1.5)
 
 # ML hyperparameters
 MAX_FEATURES = 300
