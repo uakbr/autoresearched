@@ -125,6 +125,16 @@ add_positive_word("learned", WordSignal.WEAK)
 add_positive_word("finished", WordSignal.WEAK)
 add_positive_word("turned", WordSignal.WEAK)
 add_positive_word("scratch", WordSignal.WEAK)  # "from scratch" = accomplishment
+# Achievement/career positive words
+add_positive_word("helpful", WordSignal.WEAK)
+add_positive_word("loved", WordSignal.MEDIUM)
+add_positive_word("better", WordSignal.WEAK)
+add_positive_word("paid", WordSignal.WEAK)  # "paid off" = reward
+add_positive_word("delicious", WordSignal.MEDIUM)
+# Subtle negative words for complaints
+add_negative_word("cracked", WordSignal.MEDIUM)
+add_negative_word("wrong", WordSignal.WEAK)
+add_negative_word("hungry", WordSignal.WEAK)
 
 # ML hyperparameters
 MAX_FEATURES = 400
