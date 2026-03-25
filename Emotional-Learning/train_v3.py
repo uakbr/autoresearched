@@ -266,9 +266,9 @@ train_dataset = Dataset.from_dict({
     "label": train_label_ids,
 })
 
-print("\nLoading SetFit model (all-MiniLM-L6-v2)...")
+print("\nLoading SetFit model (all-mpnet-base-v2)...")
 model = SetFitModel.from_pretrained(
-    "sentence-transformers/all-MiniLM-L6-v2",
+    "sentence-transformers/all-mpnet-base-v2",
     labels=CLASSES,
 )
 
@@ -331,7 +331,7 @@ class SetFitCV:
         ds = Dataset.from_dict({"text": texts, "label": label_ids})
 
         self._model = SetFitModel.from_pretrained(
-            "sentence-transformers/all-MiniLM-L6-v2",
+            "sentence-transformers/all-mpnet-base-v2",
             labels=CLASSES,
         )
         cv_args = TrainingArguments(
