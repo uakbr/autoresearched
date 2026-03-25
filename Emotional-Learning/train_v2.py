@@ -122,7 +122,7 @@ add_positive_word("sunrise", WordSignal.WEAK)
 add_positive_word("invincible", WordSignal.STRONG)
 add_positive_word("cried", WordSignal.WEAK)  # tears of joy context
 add_positive_word("learned", WordSignal.WEAK)
-add_positive_word("finished", WordSignal.WEAK)
+# "finished" removed: too ambiguous (triggers false positive on neutral factual statements)
 add_positive_word("turned", WordSignal.WEAK)
 add_positive_word("scratch", WordSignal.WEAK)  # "from scratch" = accomplishment
 # Achievement/career positive words
