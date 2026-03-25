@@ -432,21 +432,27 @@ def predict_cascade(texts):
     for i in range(len(texts)):
         votes = [p1[i], p5[i], p20[i]]
         winner = _Counter(votes).most_common(1)[0][0]
-        # Neutral rescue: if predicted negative but text has self-care/acceptance language
-        # and the margin is low, override to neutral
+        # Neutral rescue: override to neutral when language signals acceptance/hedging
+        tokens = texts[i].lower().split()
+        lower_text = texts[i].lower()
+        acceptance_words = {'fine', 'needed', 'okay', 'exactly'}
+        has_acceptance = any(w in tokens for w in acceptance_words)
+        negated_neg = "didn't feel" in lower_text or "don't feel" in lower_text
+        # Hedging phrase: "honestly it was fine" / "honestly + fine/okay"
+        hedging = ("honestly" in tokens and ("fine" in tokens or "okay" in tokens))
         if winner == "negative":
-            tokens = texts[i].lower().split()
-            acceptance_words = {'fine', 'needed', 'okay', 'exactly'}
-            has_acceptance = any(w in tokens for w in acceptance_words)
-            # Also detect negated negative: "didn't feel X" patterns
-            lower_text = texts[i].lower()
-            negated_neg = "didn't feel" in lower_text or "don't feel" in lower_text
             neg_idx = classes_list.index("negative") if "negative" in classes_list else -1
             if neg_idx >= 0:
                 margin = df1[i][neg_idx]
                 if has_acceptance and margin < 0.5:
                     winner = "neutral"
                 elif negated_neg and margin < 1.5:
+                    winner = "neutral"
+        elif winner == "positive" and hedging:
+            pos_idx = classes_list.index("positive") if "positive" in classes_list else -1
+            if pos_idx >= 0:
+                margin = df1[i][pos_idx]
+                if margin < 0.5:
                     winner = "neutral"
         results.append(winner)
     return results
