@@ -112,6 +112,19 @@ add_amplifier("genuinely", 1.5)
 add_amplifier("truly", 1.5)
 # Hedging words (suggest ambivalence/mixed)
 add_positive_word("weirdly", WordSignal.WEAK)
+# Narrative-positive words (quiet joy, achievement)
+add_positive_word("surreal", WordSignal.MEDIUM)
+add_positive_word("surprise", WordSignal.MEDIUM)
+add_positive_word("complimented", WordSignal.MEDIUM)
+add_positive_word("compliment", WordSignal.MEDIUM)
+add_positive_word("peace", WordSignal.MEDIUM)
+add_positive_word("sunrise", WordSignal.WEAK)
+add_positive_word("invincible", WordSignal.STRONG)
+add_positive_word("cried", WordSignal.WEAK)  # tears of joy context
+add_positive_word("learned", WordSignal.WEAK)
+add_positive_word("finished", WordSignal.WEAK)
+add_positive_word("turned", WordSignal.WEAK)
+add_positive_word("scratch", WordSignal.WEAK)  # "from scratch" = accomplishment
 
 # ML hyperparameters
 MAX_FEATURES = 300
@@ -269,6 +282,22 @@ EXTRA_TRAIN = [
     ("My phone battery usually lasts all day", "neutral"),
     ("I got the same order I always get", "neutral"),
     ("The usual spot was taken so I sat somewhere else", "neutral"),
+    # exp3: narrative-positive (achievement/surprise/quiet joy patterns)
+    ("Finally finished the project and it feels surreal", "positive"),
+    ("Got a surprise gift and it made my whole day", "positive"),
+    ("Someone complimented my work and I cannot stop smiling", "positive"),
+    ("Woke up early and the sunrise was absolutely stunning", "positive"),
+    ("Made it from scratch and it turned out perfectly", "positive"),
+    ("Got the results back and I did way better than expected", "positive"),
+    ("My friend showed up unannounced and it was the best surprise", "positive"),
+    ("Watched the sunset from the rooftop in total peace", "positive"),
+    ("Finally passed the test after studying for weeks", "positive"),
+    ("The care package from my family brightened my entire week", "positive"),
+    ("A stranger held the door and said something really kind", "positive"),
+    ("Finished the book I started months ago and loved the ending", "positive"),
+    ("My hard work finally paid off and I feel on cloud nine", "positive"),
+    ("Cooked dinner for my friends and everyone asked for the recipe", "positive"),
+    ("Got accepted into the program I have been dreaming about", "positive"),
 ]
 
 for text, label in EXTRA_TRAIN:
