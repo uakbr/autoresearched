@@ -250,6 +250,9 @@ EXTRA_TRAIN = [
     ("After weeks of confusion it finally all makes sense", "positive"),
     ("The place was closed so I went somewhere else", "neutral"),
     ("My birthday was fun but also kind of sad", "mixed"),
+    # exp129: reconnection as positive
+    ("Reached out to an old friend and they were so happy to hear from me", "positive"),
+    ("Texted someone I lost touch with and they responded right away", "positive"),
 ]
 
 for text, label in EXTRA_TRAIN:
