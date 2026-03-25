@@ -97,6 +97,9 @@ add_positive_word("won", WordSignal.STRONG)
 add_positive_word("championship", WordSignal.STRONG)
 add_positive_word("meant", WordSignal.WEAK)
 add_positive_word("remembered", WordSignal.WEAK)
+# Complaint/frustration words
+add_negative_word("afford", WordSignal.MEDIUM)
+add_negative_word("raising", WordSignal.WEAK)
 
 # ML hyperparameters
 MAX_FEATURES = 300
