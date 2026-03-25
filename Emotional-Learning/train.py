@@ -52,7 +52,7 @@ t_start = time.time()
 # ML hyperparameters
 MAX_FEATURES = 500
 NGRAM_RANGE = (1, 2)
-ML_MAX_ITER = 1000
+ML_MAX_ITER = 5000
 
 # ============================================================
 # TRAINING DATA
@@ -161,6 +161,18 @@ EXTRA_TRAIN = [
     ("The show was amazing but now I feel empty", "mixed"),
     ("Proud I stood up for myself but it was uncomfortable", "mixed"),
     ("Nice weather but I have too much work to enjoy it", "mixed"),
+    # --- pure positive (strengthen positive signal) ---
+    ("Just had the most amazing conversation", "positive"),
+    ("Really looking forward to tomorrow", "positive"),
+    ("Got some really encouraging feedback today", "positive"),
+    ("This turned out way better than I expected", "positive"),
+    ("Woke up feeling refreshed and motivated", "positive"),
+    # --- pure negative (strengthen negative signal) ---
+    ("I keep making the same mistakes over and over", "negative"),
+    ("Cannot sleep and it is driving me crazy", "negative"),
+    ("Every single thing went wrong today", "negative"),
+    ("Lost my wallet and all my cards are in it", "negative"),
+    ("Feeling really down and I do not know why", "negative"),
 ]
 
 for text, label in EXTRA_TRAIN:
