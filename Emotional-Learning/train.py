@@ -207,9 +207,14 @@ def extract_features(texts):
         amp_count = sum(1 for w in tokens if w in AMPLIFIERS)
         # Sentiment balance
         sentiment_balance = (pos_count - neg_count) / max(word_count, 1)
+        # Emoji sentiment score
+        emoji_sentiment = sum(EMOJI_SCORES.get(ch, 0) for ch in t) / 10.0
+        # Sentence length buckets
+        is_short = 1.0 if word_count <= 5 else 0.0
         feats.append([emoji_count, has_but, word_count, has_question,
                       has_exclamation, rb_score / 100.0, pos_count, neg_count,
-                      neg_word_present, amp_count, sentiment_balance])
+                      neg_word_present, amp_count, sentiment_balance,
+                      emoji_sentiment, is_short])
     return csr_matrix(np.array(feats))
 
 vectorizer = TfidfVectorizer(
