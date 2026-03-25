@@ -427,8 +427,6 @@ def predict_cascade(texts):
     p20 = model_c20.predict(X).tolist()
     # Get decision function margins for confidence
     df1 = model_c1.decision_function(X)
-    df5 = model_c5.decision_function(X)
-    df20 = model_c20.decision_function(X)
     results = []
     classes_list = list(model_c1.classes_)
     for i in range(len(texts)):
