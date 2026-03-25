@@ -243,6 +243,9 @@ EXTRA_TRAIN = [
     # exp121: bittersweet birthday/cry patterns as mixed
     ("My birthday made me happy and sad at the same time", "mixed"),
     ("Had a good long cry and honestly it helped", "mixed"),
+    # exp127: physical achievement (positive) + pessimism (negative)
+    ("Ran ten miles without stopping once", "positive"),
+    ("Nothing ever goes my way no matter what I do", "negative"),
 ]
 
 for text, label in EXTRA_TRAIN:
