@@ -298,6 +298,14 @@ EXTRA_TRAIN = [
     ("The snack machine was out of chips so I got pretzels", "neutral"),
     ("My coworker switched desks with someone on the other side", "neutral"),
     ("The construction crew started working on the building next door", "neutral"),
+    # exp6: positive-despite-worry (exam anxiety patterns)
+    ("Got the highest score on the test I was so nervous about", "positive"),
+    ("Passed the exam I was dreading and it feels so good", "positive"),
+    ("Was worried about the results but I actually aced it", "positive"),
+    # exp6: negative-despite-positive-words (deception/ghosting/penalty)
+    ("Got stood up after what seemed like a great conversation", "negative"),
+    ("Thought we had a great connection but they ghosted me", "negative"),
+    ("Got a ticket right outside my building what a joke", "negative"),
     # exp3: narrative-positive (achievement/surprise/quiet joy patterns)
     ("Finally finished the project and it feels surreal", "positive"),
     ("Got a surprise gift and it made my whole day", "positive"),
