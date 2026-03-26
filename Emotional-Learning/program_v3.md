@@ -43,7 +43,7 @@ Secondary goals (in order):
 3. Minimize cv_std (lower variance = more robust)
 4. Minimize cv-dev gap (closer = less overfitting)
 
-**NOTE**: cv_mean is HIGHER is better. Current baseline: 0.856.
+**NOTE**: cv_mean is HIGHER is better. Current best: **0.980** (exp40).
 
 ## Output format
 
@@ -86,19 +86,30 @@ ELSE:
 
 ## The experiment loop
 
+The experiment runs on a dedicated branch (e.g. `autoresearch/mar25v3`).
+
 LOOP FOREVER:
 
-1. Read git state and last results
-2. Check which metric is weakest (per-class dev F1, val F1)
-3. Design experiment targeting that weakness
-4. Edit train_v3.py
-5. git commit
-6. `python train_v3.py > run.log 2>&1`
-7. Extract metrics: `grep "^cv_mean:\|^dev_macro_f1:\|^val_macro_f1:\|^cv_std:" run.log`
-8. Apply decision rules
-9. Log to results_v3.tsv
-10. If discard: `git reset --hard HEAD~1`
-11. Continue. **NEVER STOP.**
+1. Look at the git state: `git log -1 --oneline` and `git status`
+2. Check which metric is weakest from the last run (per-class dev F1, per-class val F1)
+3. Tune `train_v3.py` with an experimental idea by directly hacking the code.
+4. git add and commit: `git add Emotional-Learning/train_v3.py && git commit -m "expN: description of change"`
+5. Run the experiment: `cd /Users/u/Desktop/auto/Emotional-Learning && source .venv/bin/activate && python train_v3.py > run.log 2>&1` (redirect everything — do NOT use tee or let output flood your context)
+6. Read out the results: `grep "^cv_mean:\|^dev_macro_f1:\|^val_macro_f1:\|^cv_std:" run.log`
+7. If the grep output is empty, the run crashed. Run `tail -n 50 run.log` to read the Python stack trace and attempt a fix. If you can't get things to work after more than a few attempts, give up — log "crash" as the status.
+8. Record the results in results_v3.tsv: `printf '%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n' "$(git rev-parse --short HEAD)" DEV_F1 VAL_F1 CV_MEAN CV_STD STATUS CATEGORY "description" >> Emotional-Learning/results_v3.tsv` (NOTE: do not commit results_v3.tsv, leave it untracked by git)
+9. If cv_mean improved (HIGHER — remember, higher is better!), you "advance" the branch, keeping the git commit
+10. If cv_mean is equal or worse, you `git reset --hard HEAD~1` back to where you started
+11. Run all git commands from `/Users/u/Desktop/auto` (the repo root). Run python from `/Users/u/Desktop/auto/Emotional-Learning` with the venv activated.
+12. Continue to next experiment. **NEVER STOP.**
+
+The idea is that you are a completely autonomous researcher trying things out. If they work, keep. If they don't, discard. And you're advancing the branch so that you can iterate.
+
+**Timeout**: Each experiment takes ~60-120 seconds (SetFit training + 5-fold CV on M4 Max CPU). If a run exceeds 10 minutes, kill it and treat it as a failure (discard and revert).
+
+**Crashes**: If a run crashes, use your judgment: If it's something dumb and easy to fix (e.g. a typo, a missing import), fix it and re-run. If the idea itself is fundamentally broken, just skip it, log "crash" as the status in the tsv, and move on.
+
+**NEVER STOP**: Once the experiment loop has begun (after the initial setup), do NOT pause to ask the human if you should continue. Do NOT ask "should I keep going?" or "is this a good stopping point?". The human might be asleep, or gone from a computer and expects you to continue working *indefinitely* until you are manually stopped. You are autonomous. If you run out of ideas, think harder — re-read the backend files for new angles, try combining previous near-misses, try more radical approaches. The loop runs until the human interrupts you, period.
 
 ## Meta-learning (every 10 experiments)
 
