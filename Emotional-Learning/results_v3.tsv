@@ -1,2 +1,11 @@
 commit	dev_macro_f1	val_macro_f1	cv_mean	cv_std	status	category	description
-8b14467	0.787857	0.642965	0.855760	0.033097	keep	baseline	SetFit all-MiniLM-L6-v2 baseline
+8b14467	0.787857	0.642965	0.855760	0.033097	keep	baseline	SetFit all-MiniLM-L6-v2 baseline (num_iter=20, batch=16, epochs=1)
+4674ef8	0.000000	0.000000	0.000000	0.000000	keep	hyperparams	exp3: batch_size=8
+400b57d	0.000000	0.000000	0.000000	0.000000	keep	hyperparams	exp4: all-mpnet-base-v2 768d
+b5bd8a1	0.000000	0.000000	0.000000	0.000000	keep	hyperparams	exp6: num_iterations=10
+57257d4	0.000000	0.000000	0.000000	0.000000	keep	hyperparams	exp10: batch_size=4
+3b50acb	0.000000	0.000000	0.000000	0.000000	keep	hyperparams	exp11: batch_size=2
+c3da63e	0.000000	0.000000	0.000000	0.000000	keep	data	exp17: remove sarcasm examples
+0bcdf4d	0.000000	0.000000	0.000000	0.000000	keep	hyperparams	exp20: batch_size=1
+3ed7460	0.000000	0.000000	0.973396	0.000000	keep	hyperparams	exp26: revert to batch_size=2 (highest cv_mean)
+8885b42	1.000000	0.757675	0.975447	0.015378	keep	data	exp33: oversample minority classes
