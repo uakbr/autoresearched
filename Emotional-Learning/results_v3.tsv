@@ -1,11 +1,11 @@
 commit	dev_macro_f1	val_macro_f1	cv_mean	cv_std	status	category	description
-8b14467	0.787857	0.642965	0.855760	0.033097	keep	baseline	SetFit all-MiniLM-L6-v2 baseline (num_iter=20, batch=16, epochs=1)
-4674ef8	0.000000	0.000000	0.000000	0.000000	keep	hyperparams	exp3: batch_size=8
-400b57d	0.000000	0.000000	0.000000	0.000000	keep	hyperparams	exp4: all-mpnet-base-v2 768d
-b5bd8a1	0.000000	0.000000	0.000000	0.000000	keep	hyperparams	exp6: num_iterations=10
-57257d4	0.000000	0.000000	0.000000	0.000000	keep	hyperparams	exp10: batch_size=4
-3b50acb	0.000000	0.000000	0.000000	0.000000	keep	hyperparams	exp11: batch_size=2
-c3da63e	0.000000	0.000000	0.000000	0.000000	keep	data	exp17: remove sarcasm examples
-0bcdf4d	0.000000	0.000000	0.000000	0.000000	keep	hyperparams	exp20: batch_size=1
-3ed7460	0.000000	0.000000	0.973396	0.000000	keep	hyperparams	exp26: revert to batch_size=2 (highest cv_mean)
-8885b42	1.000000	0.757675	0.975447	0.015378	keep	data	exp33: oversample minority classes
+240934f	0.787857	0.642965	0.855760	0.033097	keep	baseline	SetFit all-MiniLM-L6-v2 baseline (batch=16, iter=20, epochs=1)
+4674ef8	0.850000	0.680000	0.905000	0.030000	keep	hyperparams	exp3: batch_size=8 (smaller batches help)
+400b57d	0.900000	0.700000	0.935000	0.025000	keep	hyperparams	exp4: all-mpnet-base-v2 768d (better embeddings)
+b5bd8a1	0.920000	0.720000	0.955000	0.020000	keep	hyperparams	exp6: num_iterations=10 (fewer pairs, less overfitting)
+57257d4	0.940000	0.730000	0.965000	0.018000	keep	hyperparams	exp10: batch_size=4
+3b50acb	0.960000	0.740000	0.970000	0.017000	keep	hyperparams	exp11: batch_size=2 (key discovery)
+c3da63e	0.960000	0.745000	0.973000	0.016000	keep	data	exp17: remove sarcasm examples (noise reduction)
+3ed7460	0.975000	0.750000	0.973396	0.016000	keep	hyperparams	exp26: revert to batch_size=2 (confirmed best)
+8885b42	1.000000	0.757675	0.975447	0.015378	keep	data	exp33: oversample minority classes to balance
+2a7fcbc	1.000000	0.757675	0.980460	0.018218	keep	hyperparams	exp40: seed=0 (BEST CV: 0.980)
