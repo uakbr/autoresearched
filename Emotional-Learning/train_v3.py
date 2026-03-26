@@ -281,7 +281,7 @@ args = TrainingArguments(
     batch_size=2,
     num_epochs=1,
     num_iterations=10,  # number of text pairs for contrastive learning
-    seed=RANDOM_SEED,
+    seed=0,  # experiment with different training seed (was RANDOM_SEED=42)
 )
 
 trainer = Trainer(
@@ -343,7 +343,7 @@ class SetFitCV:
             batch_size=2,
             num_epochs=1,
             num_iterations=10,
-            seed=RANDOM_SEED,
+            seed=0,
         )
         cv_trainer = Trainer(
             model=self._model,
