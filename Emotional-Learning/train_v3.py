@@ -240,7 +240,23 @@ for text, label in EXTRA_TRAIN:
     train_texts.append(text)
     train_labels.append(label)
 
-print(f"Training data: {len(train_texts)} examples")
+# Oversample minority classes to match the majority class count
+from collections import Counter
+class_counts = Counter(train_labels)
+max_count = max(class_counts.values())
+oversampled_texts = list(train_texts)
+oversampled_labels = list(train_labels)
+for cls in CLASSES:
+    cls_texts = [t for t, l in zip(train_texts, train_labels) if l == cls]
+    deficit = max_count - class_counts[cls]
+    if deficit > 0:
+        for i in range(deficit):
+            oversampled_texts.append(cls_texts[i % len(cls_texts)])
+            oversampled_labels.append(cls)
+train_texts = oversampled_texts
+train_labels = oversampled_labels
+
+print(f"Training data: {len(train_texts)} examples (after oversampling)")
 print(f"  Class distribution: { {cls: train_labels.count(cls) for cls in CLASSES} }")
 
 # ============================================================
